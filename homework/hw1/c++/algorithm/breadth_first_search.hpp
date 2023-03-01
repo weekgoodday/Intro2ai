@@ -57,7 +57,7 @@ public:
                 if (require_path){
                     show_reversed_path(last_state_of, state);
                 } else {
-                    state.show();
+                    //state.show();
                 }
                 continue;
             }
