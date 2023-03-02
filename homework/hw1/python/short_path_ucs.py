@@ -41,7 +41,7 @@ if __name__ == "__main__":
     ]
 
     # 各条边的起点，无向边仅记录一次
-    u = [0,0,1,2,2, 5,7,9,10,11, 11,3,3,4,6, 8,16,16,12,13, 14,17,18]
+    u = [0,0,1,2,2, 5,7,9,10,11, 11,3,3,4,6, 8,16,16,12,13, 14,17,18] #20个节点23条边
 
     # 各条边的终点
     v = [1,3,2,5,3, 7,9,10,11,6, 8,6,4,16,8, 16,15,17,13,14, 17,18,19]
@@ -57,4 +57,9 @@ if __name__ == "__main__":
     state = DirectedGraphState(graph, 2, 16)
     
     hs = HeuristicSearch(state)
+    print("Uniform Cost Search:")
     hs.search(lambda s: -s.cumulative_cost())
+    print("Greedy Search:")
+    hs.search(lambda s: -to_target_dis[s.current_node])
+    print("A_Star Search:")
+    hs.search(lambda s: -to_target_dis[s.current_node]-s.cumulative_cost())

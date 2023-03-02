@@ -8,7 +8,7 @@ from utils.show_path import show_reversed_path
 # 根据传入的状态估值函数启发式地搜索一个解
 class HeuristicSearch:
     
-    ValueEstimatorType = Callable[[StateBase], float]
+    ValueEstimatorType = Callable[[StateBase], float] #简单认为一个函数
     
     def __init__(self, state:StateBase):
         assert isinstance(state, StateBase)
@@ -28,7 +28,7 @@ class HeuristicSearch:
         
         states_queue.put((0, self.initial_state))
         best_value_of[self.initial_state] = 0
-                
+        print("prior queue elements: %d" % self.initial_state.current_node ,end=" " )
         while not states_queue.empty():
             _, state = states_queue.get()
             
@@ -41,15 +41,21 @@ class HeuristicSearch:
             # 从开结点集中估值最高的状态出发尝试所有动作
             for action in state.action_space():
                 
-                new_state = state.next(action)
+                new_state = state.next(action) #会修改_cumulative_cost
                 
                 # 如果从当前结点出发到达新结点所获得的估值高于新结点原有的估值，则更新
                 if (new_state not in best_value_of 
                     or value_of(new_state) > best_value_of[new_state]):
-                    
+                    if(new_state not in best_value_of):
+                        print("%d" % new_state.current_node ,end=" ")
+                    else:
+                        print("(%d changed)"%new_state.current_node,end=" ")
                     best_value_of[new_state] = value_of(new_state)
                     states_queue.put((-value_of(new_state), new_state))
+                    
+                    
                     last_state_of[new_state] = state
         
         if state.success():
+            print() #换个行
             show_reversed_path(last_state_of, state)
