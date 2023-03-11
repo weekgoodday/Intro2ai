@@ -17,7 +17,7 @@ int main(){
 
     std::ios::sync_with_stdio(false);
 
-    int n = 1000;
+    int n = 13000;
     
     QueensConstraintSatisfaction q(n);
     

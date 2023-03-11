@@ -7,7 +7,7 @@
 #include "algorithm/hill_climb.hpp"
 #include "utils/selection.hpp"
 
-int n = 100;
+int n = 220;
 double log_n = log(n);
 
 // 使用RouletteSelection时可以尝试修改下面的两个估值函数来获得更好的效果

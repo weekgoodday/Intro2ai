@@ -26,7 +26,7 @@ private:
     int best_index, second_index;
 
     // 评估一个基因序列的适应度
-    double evaluate_chromosome(const ChromosomeType& c) const {
+    double evaluate_chromosome(const ChromosomeType& c) {
         int n_queens = c.size();
         std::vector<int> lr(n_queens << 1, 0), rl(n_queens << 1, 0);
         std::vector<int> column(n_queens, 0);
@@ -40,6 +40,10 @@ private:
             conflicts += column[c[i]] + rl[c[i]+i] + lr[c[i]-i+n_queens-1] - 3;
         }
         // 目标适应度：0
+        if (conflicts==0)
+        {
+            finish=true;
+        }
         return -conflicts;
     }
     
@@ -86,7 +90,8 @@ public:
 
     inline std::vector<ChromosomeType> population() const override {return _population;}
     inline std::vector<double> adaptability() const override {return _adaptability;}
-    
+    // 判断是否已经结束（有conflict为0的个体出现）
+    bool finish=false;
     // 通过选择亲本以及交叉生成下一代种群
     void cross() override {
         update_best_and_second();
@@ -148,7 +153,7 @@ std::vector<std::vector<int> > generate_queens_population(int n_queens, int popu
 
 #include "algorithm/genetic.hpp"
 
-int n = 20;
+int n = 125;
 
 int main(){
 

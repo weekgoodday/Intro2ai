@@ -37,10 +37,20 @@ public:
 
             // 交叉操作，在整个种群中选择若干个体交叉生成子代，改变种群
             _population.cross();
-
+            if(_population.finish)
+            {
+                _population.show();
+                std::cout<<"finish"<<std::endl;
+                break;
+            }
             // 突变操作：在整个种群中选择若干个体发生突变，改变种群
             _population.mutate();
-
+            if(_population.finish)
+            {
+                _population.show();
+                std::cout<<"finish"<<std::endl;
+                break;
+            }
             // 输出当前种群情况
             _population.show();
 
