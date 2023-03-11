@@ -5,57 +5,55 @@ from interface.constraint_satisfaction import ConstraintSatisfactionBase
 from utils.selection import SelectionBase
 from utils.random_variables import RandomVariables
 
+
 class ConflictMinimize:
     VariableType = ConstraintSatisfactionBase.VariableType
     ConflictValueEstimatorType = Callable[[int], float]
-    
-    
-   
+
     default_conflict_value_estimator = lambda conflicts: exp(conflicts)
-    
-    
-    def __init__(self, problem:ConstraintSatisfactionBase):
+
+    def __init__(self, problem: ConstraintSatisfactionBase):
         self._problem = problem
-    
-    
-    def _sample_path(self, max_steps:int, selection:SelectionBase, value_of:ConflictValueEstimatorType) -> None:
-        
+
+    def _sample_path(self, max_steps: int, selection: SelectionBase, value_of: ConflictValueEstimatorType) -> None:
+
         for i in range(max_steps):
             if not self._problem.has_conflict():
+                print(f"after {i} steps")
                 break
-            permutation = RandomVariables.uniform_permutation(self._problem.n_variables())
-            selection.initialize(self._problem.n_variables(), value_of(0))
-            
-            for j in range(self._problem.n_variables()):
-                selection.submit(value_of(self._problem.conflicts_of(permutation[j])))
+            permutation = RandomVariables.uniform_permutation(self._problem.n_variables())  # 返回一个n排列
+            selection.initialize(self._problem.n_variables(), value_of(0))  # 没有冲突的value作为当前value
+
+            for j in range(self._problem.n_variables()):  # 因为selection初始化是selected_index是0
+                selection.submit(value_of(self._problem.conflicts_of(permutation[j])))  # max需要全部循环找最大一个冲突，first应该只循环一次
                 if selection.done():
                     break
-            
+
             selected_index = permutation[selection.selected_index()]
             old_variable = self._problem.variables()[selected_index]
             choices = self._problem.choices_of(selected_index)
-            
+
             permutation = RandomVariables.uniform_permutation(len(choices))
-            selection.initialize(len(choices), value_of(-self._problem.conflicts_of(selected_index)))
-            
+            selection.initialize(len(choices), value_of(-self._problem.conflicts_of(selected_index)))  # 这里有负号 这次是想找最小冲突
+
             for j in range(len(choices)):
                 self._problem.set_variable(selected_index, choices[permutation[j]])
-                selection.submit(value_of(-self._problem.conflicts_of(selected_index)))
+                selection.submit(value_of(-self._problem.conflicts_of(selected_index)))  # 找selected_index这行最小的冲突设置
                 self._problem.set_variable(selected_index, old_variable)
-                
+
                 if selection.done():
                     break
-            
-            self._problem.set_variable(selected_index, choices[permutation[selection.selected_index()]]) 
-    
-    def search(self, iterations:int, max_steps:int, selection:SelectionBase,
-        value_of:ConflictValueEstimatorType=default_conflict_value_estimator):
-        
+
+            self._problem.set_variable(selected_index, choices[permutation[selection.selected_index()]])
+
+    def search(self, iterations: int, max_steps: int, selection: SelectionBase,
+               value_of: ConflictValueEstimatorType = default_conflict_value_estimator):
+
         for i in range(iterations):
             print("<begin>")
             self._problem.reset()
             self._sample_path(max_steps, selection, value_of)
-            
+
             if not self._problem.has_conflict():
                 print(f"Successful search: {i}")
                 self._problem.show()
