@@ -7,7 +7,7 @@ from algorithm.hill_climb import HillClimb
 from utils.selection import MaxSelection, FirstBetterSelection, RouletteSelection
 
 if __name__ == "__main__":
-    n = 40
+    n = 45
     log_n = log(n)
     queens_move_state_value_estimator = lambda state: exp(-log_n * state.conflicts)  # ==1/(n^conflicts)
     queens_swap_state_value_estimator = lambda state: exp(-log_n * state.state.conflicts)

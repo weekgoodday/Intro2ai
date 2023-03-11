@@ -11,7 +11,7 @@ class HillClimb:
 
     def __init__(self, state: StateLocalBase):
         self._initial_state = deepcopy(state)
-
+        self.state_times = 0
     def _sample_path(self, value_of: ValueEstimatorType,
                      target_value: float, max_steps: int, selection: SelectionBase) -> StateLocalBase:
 
@@ -26,6 +26,7 @@ class HillClimb:
             for j in range(state.neighbor_count()):
                 selection.submit(value_of(state.neighbor(permutation[j])))
                 if selection.done():
+                    self.state_times += 1
                     break
 
             state = state.neighbor(permutation[selection.selected_index()])
@@ -45,9 +46,13 @@ class HillClimb:
             if state_value >= target_value:
                 print(f"Successful search: {i}")
                 state.show()
+                print(f"having experienced {self.state_times} states")
+                self.state_times = 0
                 break
             else:
                 print(f"Failed search: {i}")
+                print(f"having experienced {self.state_times} states")
+                self.state_times = 0
 
             print(f"Value: {state_value}")
             print("<end>")
