@@ -55,7 +55,7 @@ private:
             action_id = RandomVariables::uniform_int() % state.n_actions();
             state = state.next(state.action_space()[action_id]);
         }
-        return state.cumulative_rewards();
+        return state.cumulative_rewards();  //who wins who gets 1 the other -1
     }
 
     // 采样一条路径，更新途径结点访问计数和总价值
@@ -77,7 +77,7 @@ private:
         ++ visit_count_of[index];
 
         // 如果未完全扩展当前结点，选择一个没有做过的动作来尝试，扩展后模拟
-        if (node->n_children() < state.n_actions()){
+        if (node->n_children() < state.n_actions()){  //子节点小于可选动作，说明没探索全
             
             // 扩展的结点对应的状态
             next_state = state.next(state.action_space()[node->n_children()]);
@@ -101,7 +101,7 @@ private:
         } else if (node->n_children() > 0){
 
             MaxSelection selection;
-            selection.initialize(node->n_children(), -DBL_MAX);
+            selection.initialize(node->n_children(), -DBL_MAX);  
 
             for (int i = 0, child; i < node->n_children(); ++ i){
                 
@@ -109,9 +109,9 @@ private:
                 child = node->child(i)->index();
 
                 // 选择UCT值最大的子结点继续探索
-                selection.submit(value_sums_of[child][state.active_player()] / visit_count_of[child]
+                selection.submit(value_sums_of[child][state.active_player()] / visit_count_of[child]  //这里感觉也不应该除？？
                     + exploration * sqrt(log(visit_count_of[index]) / visit_count_of[child])
-                );
+                );  //Q/N+0.2*sqrt(ln(t)/N)
             }
 
             next_state = state.next(state.action_space()[selection.selected_index()]);
@@ -128,7 +128,7 @@ private:
 
 public:
 
-    MonteCarloTreeSearch(const GameState& root_state){
+    MonteCarloTreeSearch(const GameState& root_state){  // 构造函数 需要一个根状态输入
 
         // _root_state状态对应树根，树根在搜索树中编号为0
         state_to_index[root_state] = 0;
@@ -141,7 +141,7 @@ public:
         value_sums_of[0] = std::vector<double>(root_state.n_players(), 0);
     }
     
-    ActionType select_action(int iterations, double exploration){
+    ActionType select_action(int iterations, double exploration){  //选择动作函数 输入是iteration和探索比例
 
         GameState root_state = index_to_state[0];
 
@@ -163,7 +163,7 @@ public:
             child = root->child(i)->index();
 
             // 按平均价值贪心选择
-            selection.submit(value_sums_of[child][root_state.active_player()] / visit_count_of[child]);
+            selection.submit(value_sums_of[child][root_state.active_player()] / visit_count_of[child]); //这里感觉不应该除？？ selection的时候直接取最大？？
         }
 
         // 也可以按照访问次数贪心选择

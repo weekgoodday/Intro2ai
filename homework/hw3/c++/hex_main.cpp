@@ -15,14 +15,14 @@ const int N = 11;
 const double exploration = 0.2;
 
 // 迭代次数
-const int iterations = 5000;
+const int iterations = 7500;
 
 // 搜索生成state下的动作
 Json::Value get_next_action(const HexState<N>& state, bool forced_flag){
     MonteCarloTreeSearch<HexState<N> > mcts(state);
     int action = mcts.select_action(iterations, exploration);
 
-    if (forced_flag){
+    if (forced_flag){  //第一步必须下在C2
         action = 1*11+2;
     }
 
