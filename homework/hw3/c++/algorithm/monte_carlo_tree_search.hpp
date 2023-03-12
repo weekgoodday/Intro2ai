@@ -109,9 +109,9 @@ private:
                 child = node->child(i)->index();
 
                 // 选择UCT值最大的子结点继续探索
-                selection.submit(value_sums_of[child][state.active_player()] / visit_count_of[child]  //这里感觉也不应该除？？
+                selection.submit(value_sums_of[child][state.active_player()] / visit_count_of[child]
                     + exploration * sqrt(log(visit_count_of[index]) / visit_count_of[child])
-                );  //Q/N+0.2*sqrt(ln(t)/N)
+                );  //Q+0.2*sqrt(ln(t)/N)
             }
 
             next_state = state.next(state.action_space()[selection.selected_index()]);
@@ -163,7 +163,7 @@ public:
             child = root->child(i)->index();
 
             // 按平均价值贪心选择
-            selection.submit(value_sums_of[child][root_state.active_player()] / visit_count_of[child]); //这里感觉不应该除？？ selection的时候直接取最大？？
+            selection.submit(value_sums_of[child][root_state.active_player()] / visit_count_of[child]);
         }
 
         // 也可以按照访问次数贪心选择

@@ -19,7 +19,7 @@ const int iterations = 7500;
 
 // 搜索生成state下的动作
 Json::Value get_next_action(const HexState<N>& state, bool forced_flag){
-    MonteCarloTreeSearch<HexState<N> > mcts(state);
+    MonteCarloTreeSearch<HexState<N> > mcts(state);  //每次都重新生成搜索树！? 
     int action = mcts.select_action(iterations, exploration);
 
     if (forced_flag){  //第一步必须下在C2

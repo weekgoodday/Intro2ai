@@ -18,7 +18,7 @@ private:
     // 红方先手
     static constexpr int8_t R = 0b01, B = 0b10;
 
-    int steps;
+    
     std::array<int8_t, N*N> board;
 
     // 用于检测红色/蓝色棋块连通性
@@ -33,7 +33,7 @@ private:
     }
 
 public:
-    
+    int steps;
     HexState() : steps(0), board{0}, r_detector(N*N+2), b_detector(N*N+2) {
         
         // N*N:   up, red      /  left, blue

@@ -160,7 +160,7 @@ private:
     // 红方先手
     static constexpr int8_t R = 0b01, B = 0b10;
 
-    int steps;
+    
     std::array<int8_t, N*N> board;
 
     // 用于检测红色/蓝色棋块连通性
@@ -175,7 +175,7 @@ private:
     }
 
 public:
-    
+    int steps;
     HexState() : steps(0), board{0}, r_detector(N*N+2), b_detector(N*N+2) {
         
         // 各边界单独用一个元素表示
@@ -588,7 +588,7 @@ private:
 
                 // 选择UCT值最大的子结点继续探索
                 selection.submit(value_sums_of[child][state.active_player()] / visit_count_of[child]
-                    + exploration * sqrt(log(visit_count_of[index]) / visit_count_of[child])
+                    + exploration*(1+0.01*(50-state.steps)) * sqrt(log(visit_count_of[index]) / visit_count_of[child])
                 );
             }
 
