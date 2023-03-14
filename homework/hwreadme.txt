@@ -41,3 +41,6 @@ hw3：
 本来想改不要每个state重建树，也不要每次都随机simulate，但改起来太麻烦了。
 有需要卷的同学可以重新实现一下它的MTCs，能保留以前探索过的值，每次simulate都利用值信息选择而不是都随机，可以去这里https://extra.botzone.org.cn/matchpacks/，下个json对局信息研究一下输入输出。
 没啥意思，真浪费时间。最后交了个baseline+线性探索系数（一开始大后来小），摆了。
+hw4：
+很不巧，我刚选过李老师2022秋开的强化学习课，第四次作业就是这门课前两次作业的浓缩版，直接在Intro2ai/homework/hw4/去年强化学习的作业1和2 找对应问题的代码即可。
+btw，井字棋实现的应该是RL book第10页那个简单的状态价值的更新（与动作无关），应该是temporal-difference td 学习方法，当时是让X赢，改成让O赢就可以。 偷懒的，直接把tictactoe.hpp里的PLAYNAME给改了就可以。
