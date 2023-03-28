@@ -657,10 +657,10 @@ using namespace std;
 const int N = 11;
 
 // UCT探索项系数
-const double exploration = 0.2;
+const double exploration = 0.15;
 
 // 迭代次数
-const int iterations = 5200;
+const int iterations = 3000;
 
 // 搜索生成state下的动作
 Json::Value get_next_action(const HexState<N>& state, bool forced_flag){
