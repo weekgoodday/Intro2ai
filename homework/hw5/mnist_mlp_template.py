@@ -53,21 +53,24 @@ class MNISTDataset(Dataset):#继承Dataset类
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(784, 800)
-        self.fc2 = nn.Linear(800, 800)
-        self.fc3 = nn.Linear(800, 10)
-
+        self.fc1 = nn.Linear(784, 1024)
+        self.fc2 = nn.Linear(1024, 1024)
+        self.fc3 = nn.Linear(1024,512)
+        self.fc4 = nn.Linear(512, 10)
+        self.dropout=nn.Dropout2d(p=0.2)
 
     def forward(self, x):
         x = x.view(-1, 784)
         
         x = F.relu(self.fc1(x))
-
+        # x = self.dropout(x)
         x = F.relu(self.fc2(x))
+        # x= self.dropout(x)
+        x = F.relu(self.fc3(x))
+        x = self.dropout(x) # 纯acc来说加与不加区别不大
+        x = self.fc4(x)
 
-        x = self.fc3(x)
-
-        return F.log_softmax(x, dim=1)
+        return x  # CrossEntropy等价于 log softmax+ NLL 讲道理不需要log softmax
 
 # 实例化模型
 model = Net()
@@ -75,8 +78,8 @@ model.to(device='cuda')
 # 定义损失函数
 criterion = nn.CrossEntropyLoss()
 # 定义优化器
-optimizer = optim.SGD(model.parameters(), lr=0.001)
-
+optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
+scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer,T_max=10)
 # 定义数据加载器
 train_loader = DataLoader(MNISTDataset(X_train, y_train), \
                             batch_size=64, shuffle=True)
@@ -122,6 +125,7 @@ for epoch in range(EPOCHS):
         correct = pred.eq(target.view_as(pred)).sum().item()
         correct_train += correct
         acc_train.append(100.* correct / len(data))
+    scheduler.step()
 
     history['train_loss'].append(np.mean(loss_train))
     history['train_acc'].append(np.mean(acc_train))
@@ -161,6 +165,7 @@ plt.legend()
 plt.subplot(1, 2, 2)
 plt.plot(history['train_acc'], label='train_acc')
 plt.plot(history['val_acc'], label='val_acc')
+plt.plot(np.ones_like(history['val_acc'])*98,ls='--',color='grey')
 plt.legend()
 plt.show()
-
+plt.savefig("./curve.jpg")

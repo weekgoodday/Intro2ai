@@ -30,20 +30,25 @@ def relu(x):
     '''
     relu函数
     '''
-    pass
+    if x>0:
+        return x
+    return np.zeros_like(x)
 
 def relu_prime(x):
     '''
     relu函数的导数
     '''
-    pass
+    if x>0:
+        return np.ones_like(x)
+    return np.zeros_like(x)
 
 #输出层激活函数
 def f(x):
     '''
     softmax函数, 防止除0
     '''
-    pass
+    return x/np.sum(np.exp(x))
+    
 
 def f_prime(x):
     '''
