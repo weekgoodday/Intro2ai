@@ -91,7 +91,7 @@ test_loader = DataLoader(MNISTDataset(X_test, y_test), \
 # 定义训练参数
 EPOCHS = 10
 
-history = {'train_loss': [], 'train_acc': [], 'val_loss': [], 'val_acc': []}
+history = {'train_loss': [], 'train_acc': [], 'val_loss': [], 'val_acc': [], 'test_acc':[]}
 # 训练模型
 for epoch in range(EPOCHS):
     # 训练模式
@@ -138,23 +138,30 @@ for epoch in range(EPOCHS):
     model.eval()
     val_loss = []
     correct = 0
+    correct_test=0
     with torch.no_grad():
         for data, target in val_loader:
             data, target = data.to(device='cuda'), target.to(device='cuda')
-            
             output = model(data)
             val_loss.append(criterion(output, target).item()) # sum up batch loss
             pred = output.max(1, keepdim=True)[1] # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
+        for data, target in test_loader:
+            data, target = data.to(device='cuda'), target.to(device='cuda')
+            output = model(data)
+            pred = output.max(1, keepdim=True)[1]
+            correct_test += pred.eq(target.view_as(pred)).sum().item()
+        
 
     val_loss = np.mean(val_loss)
 
     print('Validation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)'.format(
         val_loss, correct, len(val_loader.dataset),
         100. * correct / len(val_loader.dataset)))
-
+    print("test set accuracy: %.2f%%",100.*correct_test/len(test_loader.dataset))
     history['val_loss'].append(val_loss)
     history['val_acc'].append(100. *correct / len(val_loader.dataset))
+    history['test_acc'].append(100.*correct_test/len(test_loader.dataset))
 
 # 画图
 plt.figure(figsize=(10, 5))
@@ -165,7 +172,11 @@ plt.legend()
 plt.subplot(1, 2, 2)
 plt.plot(history['train_acc'], label='train_acc')
 plt.plot(history['val_acc'], label='val_acc')
+plt.plot(history['test_acc'], label='test_acc')
 plt.plot(np.ones_like(history['val_acc'])*98,ls='--',color='grey')
 plt.legend()
+plt.xlabel("epoch")
+plt.ylabel("acc %")
+plt.title("pytorch implement mnist")
 plt.show()
 plt.savefig("./curve.jpg")
