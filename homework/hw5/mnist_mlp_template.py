@@ -69,7 +69,6 @@ class Net(nn.Module):
         x = F.relu(self.fc3(x))
         x = self.dropout(x) # 纯acc来说加与不加区别不大
         x = self.fc4(x)
-
         return x  # CrossEntropy等价于 log softmax+ NLL 讲道理不需要log softmax
 
 # 实例化模型
