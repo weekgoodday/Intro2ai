@@ -67,3 +67,9 @@ https://blog.csdn.net/sgfsfgs/article/details/126261298
 https://meeting.tencent.com/v2/cloud-record/share?id=aeef4a8c-2eb3-43ea-a059-8396f24064f3&from=3
 傻了，助教重新传了作业包，补上了几个文件，我是小丑。。。
 只要自己找一些图片按照imgs_celebrity下的文件格式命名跑一遍程序就可以了。
+hw7:
+GAN生成伪造人脸
+每处只要补一行代码，这种作业形式大四老狗太喜欢了，这门课逐渐变得推荐起来了？（虽然这1个G的图片数据集传起来比较费事
+事实上这里DCGAN的实现和pytorch tutorial一样：
+https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html#
+https://blog.csdn.net/disanda/article/details/102981996
