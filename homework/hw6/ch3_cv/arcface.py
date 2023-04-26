@@ -225,3 +225,7 @@ def sub_feature(feature_list, rate=0.9):
         return sub_feature_list, mean_feature
     else:
         return feature_list.copy(), feature_list[0].copy()
+if __name__ == '__main__':
+    landmarks=np.load('data/landmarks.npy')
+    print(landmarks.shape)
+    

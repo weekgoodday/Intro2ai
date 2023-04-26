@@ -54,3 +54,16 @@ numpy手工实现反向传播完成mnist数字分类+pytorch版的实现
 需要一些数学推导，我直接实现的是每batch_size*input_size的输入与反向传播（与一个一个行输入有细微的差别）。
 2、pytorch实现
 这对大四老狗来说太简单了，加了一些optimizer scheduler的奇技淫巧，让acc达标了。
+hw6:
+配环境应该比较花时间，寒武纪的手册没弄明白最后在我的服务器上跑了。
+1、cifar10的网络搭建
+直接CSDN上找了一个最简单的CNN（就四层CNN+三层全连接）就可以使acc达到80%以上：
+https://blog.csdn.net/sgfsfgs/article/details/126261298
+还有一些更深的，或者加个直连ResBlock的实现可以达到更高的acc，有兴趣的话可以试试。
+100epoch训起来需要一些时间。好像我们助教要求申请延迟的同学要在验证集上测取最好的模型，然后再去测试集上跑
+（但是 pytorch的cifar10 dataloader没有验证集，我只好自己魔改cifar10的dataset了，因为要从指定路径找这个VisionDataset的实现，这套代码大概率没什么可迁移性）
+2、人脸识别
+非常的麻烦，看源码根本不知道在干什么，要怎么样用才能完成作业要求，非常差的作业布置形式。好在助教补了一个视频说明：
+https://meeting.tencent.com/v2/cloud-record/share?id=aeef4a8c-2eb3-43ea-a059-8396f24064f3&from=3
+傻了，助教重新传了作业包，补上了几个文件，我是小丑。。。
+只要自己找一些图片按照imgs_celebrity下的文件格式命名跑一遍程序就可以了。

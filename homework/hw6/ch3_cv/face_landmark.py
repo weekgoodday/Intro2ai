@@ -120,6 +120,8 @@ if __name__ == "__main__":
     for lm in landmarks:
         for x, y in lm:
             cv2.circle(img, (int(x), int(y)), 2, (255, 255, 0), -1)
-
-    cv2.imshow("img", img)
-    cv2.waitKey()
+    landmarks=np.concatenate(landmarks)
+    np.save("data/landmarks.npy", landmarks)
+    # cv2.imshow("img", img)
+    # cv2.waitKey()
+    # cv2.imwrite("data/wild_lm.jpg", img)
