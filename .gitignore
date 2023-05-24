@@ -3,3 +3,4 @@ mnist/
 data/
 *.ckpt
 weights/
+.vscode/

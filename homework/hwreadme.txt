@@ -35,6 +35,7 @@ t=1/n*exp(n-t/16/n)（当然可以也自己设置）  选择状态时更优或�
 先每行随机位置放皇后，然后一行行操作，通过选择算法选一行的皇后放在该行冲突最小的地方，不断重复直至没有冲突。
 有可能找不到解，但实际max selection一般都可以找到，且快，first（完全随机选一行）不一定行。
 与爬山法的区别是评估的是某一个皇后的冲突，一次选择只有n种。
+
 hw3：
 再一次证明了这学期做过的最错误的决策之一就是为了和同学一起，退了引论选了基础，作业是真雷啊！
 读了一下代码
@@ -42,9 +43,11 @@ hw3：
 有需要卷的同学可以重新实现一下它的MTCs，能保留以前探索过的值，每次simulate都利用值信息选择而不是都随机，
 输入json大概长这样{"requests":[{"forced_x":1,"forced_y":2,"x":-1,"y":-1},{"x":3,"y":7}],"responses":[{"x":1,"y":2}]}
 没啥意思，真浪费时间。最后交了个baseline+线性探索系数（一开始大后来小），摆了。
+
 hw4：
 很不巧，我刚选过李老师2022秋开的强化学习课，第四次作业就是这门课前两次作业的浓缩版，直接在Intro2ai/homework/hw4/去年强化学习的作业1和2 找对应问题的代码即可。
 btw，井字棋实现的应该是RL book第10页那个简单的状态价值的更新（与动作无关），应该是temporal-difference td 学习方法，当时是让X赢，改成让O赢就可以。 偷懒的，直接把tictactoe.hpp里的PLAYNAME给改了就可以。
+
 hw5:
 numpy手工实现反向传播完成mnist数字分类+pytorch版的实现
 作业比较繁杂的要求：
@@ -54,6 +57,7 @@ numpy手工实现反向传播完成mnist数字分类+pytorch版的实现
 需要一些数学推导，我直接实现的是每batch_size*input_size的输入与反向传播（与一个一个行输入有细微的差别）。
 2、pytorch实现
 这对大四老狗来说太简单了，加了一些optimizer scheduler的奇技淫巧，让acc达标了。
+
 hw6:
 配环境应该比较花时间，寒武纪的手册没弄明白最后在我的服务器上跑了。
 1、cifar10的网络搭建
@@ -67,9 +71,21 @@ https://blog.csdn.net/sgfsfgs/article/details/126261298
 https://meeting.tencent.com/v2/cloud-record/share?id=aeef4a8c-2eb3-43ea-a059-8396f24064f3&from=3
 傻了，助教重新传了作业包，补上了几个文件，我是小丑。。。
 只要自己找一些图片按照imgs_celebrity下的文件格式命名跑一遍程序就可以了。
+
 hw7:
 GAN生成伪造人脸
 每处只要补一行代码，这种作业形式大四老狗太喜欢了，这门课逐渐变得推荐起来了？（虽然这1个G的图片数据集传起来比较费事
 事实上这里DCGAN的实现和pytorch tutorial一样：
 https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html#
 https://blog.csdn.net/disanda/article/details/102981996
+
+hw8:
+手写LSTM进行imdb分类（貌似是电影情感分类），可以用nn.Linear 
+找了一下没找到现成的，但通过公式实现四个Linear确实结果和官方一模一样，运行速度上远远不如官方LSTM类，应该做了很多优化。
+实现难点在维度concate的统一 h_t c_t 都是(batch,hidden_size) x, y是(batch,length,in_embedding) 最后给y按长度平均，后续全连接到[32,2]二分类
+另外这只是单层单向的LSTM 双向可能会有不一样。
+学通LSTM四步（作业到第二步）：
+1、最基本的RNN与LSTM六个公式
+2、LSTM h c x y维度与多层和时序两个维度
+3、RNN与LSTM的反向传播优化
+4、双向LSTM GRU变体
