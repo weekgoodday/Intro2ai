@@ -4,3 +4,4 @@ data/
 *.ckpt
 weights/
 .vscode/
+*.exe
