@@ -97,3 +97,9 @@ hw9:
 最后大部分时间浪费在了找HTML语言里找div、span之类的block。
 转折点在发现了网页上的一个“选择元素找代码”按钮，然后对应到了id="__next"的div
 
+hw10:
+transformer中译英 德译英
+说句实话不会transformer直接跑通也能完成作业。
+不知道是不是pytorch版本，我这里1.10 改了一个.type(torch.LongTenser)
+另外batshsize 128显存不太够，改成32了
+

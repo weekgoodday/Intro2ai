@@ -5,3 +5,4 @@ data/
 weights/
 .vscode/
 *.exe
+*.whl
