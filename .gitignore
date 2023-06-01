@@ -6,3 +6,5 @@ weights/
 .vscode/
 *.exe
 *.whl
+*checkpoints/
+homework*.zip

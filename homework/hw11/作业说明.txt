@@ -1,0 +1,52 @@
+作业说明：
+
+
+0. 截止日期：
+
+	 2023年6月4日23:59
+
+1. 任务简述：
+    本次作业要求利用提供的Ames Housing数据集并根据提供的代码和提示补全缺失代码，以熟悉数据处理，特征工程，模型构建等机器学习的一般流程。
+
+
+
+2. 文件结构：
+    
+	data文件夹存放有：
+        
+	- train.csv: 训练集的特征以及对应的目标预测值(即房价)
+        
+	- test.csv: 测试集的特征
+        
+	- data_description.txt: 数据描述文件 
+	（如不清楚可参考：https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data?select=data_description.txt）       
+
+
+注意：本次作业给出了测试集，主要是帮助更好地大家分析预测模型，测试集合的数据不应该被用于训练！！！
+            
+      本次作业的评分主要依据是补全后的jupyter文件。 
+
+
+3. xxx.ipynb文件如何打开？	
+    
+	xxx.ipynb是jupyter notebook 文件，可在浏览器中交互式地执行代码，同时可以将代码、文字完美结合起来。
+   
+        可以通过以下命令事先安装好jupyter notebook:  pip install jupyter
+    
+	安装好jupyter后通过终端进入xxx.ipynb所在目录，执行 jupyter notebook 即可在浏览器打开xxx.ipynb文件
+
+
+
+4. 补充材料
+：
+	【matplotlib】
+		https://matplotlib.org/stable/index.html
+	
+	【seaborn】
+		https://seaborn.pydata.org/
+	
+	【sklearn】
+		https://scikit-learn.org/
+	
+	【pandas】
+		https://pandas.pydata.org/docs/
